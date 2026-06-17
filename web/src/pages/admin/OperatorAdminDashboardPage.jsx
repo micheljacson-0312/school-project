@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../lib/api.js';
+import RoleQuickActions from '../../components/RoleQuickActions.jsx';
 
 function Metric({ label, value }) {
   return (
@@ -24,6 +25,7 @@ export default function OperatorAdminDashboardPage() {
         <h1 className="text-2xl font-semibold">{data.greeting}</h1>
         <p className="text-slate-500">Computer operator — ID cards, certificates, and document generation.</p>
       </header>
+      <RoleQuickActions roleKey="operator" />
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Metric label="Active students" value={data.students_active} />
         <Metric label="Active teachers" value={data.teachers_active} />

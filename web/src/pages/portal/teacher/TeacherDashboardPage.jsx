@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../../lib/api.js';
+import RoleQuickActions from '../../../components/RoleQuickActions.jsx';
 
 function Metric({ label, value, hint }) {
   return (
@@ -26,6 +27,8 @@ export default function TeacherDashboardPage() {
           {t ? <>{t.designation || 'Teacher'} · Code {t.employee_code}</> : 'No teacher profile linked.'}
         </p>
       </header>
+
+      <RoleQuickActions roleKey="teacher" />
 
       <section className="grid grid-cols-2 md:grid-cols-3 gap-3">
         <Metric label="Assigned classes" value={data.assignments?.length || 0} />

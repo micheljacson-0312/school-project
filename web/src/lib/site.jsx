@@ -25,6 +25,8 @@ const DEFAULTS = {
   principal: null,
   latest_news: [],
   gallery_preview: [],
+  announcements: [],
+  stats: { students: 0, teachers: 0, grades: 0, founded_year: null },
 };
 
 export function SiteProvider({ children }) {

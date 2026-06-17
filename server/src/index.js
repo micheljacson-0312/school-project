@@ -28,6 +28,8 @@ const evaluationRoutes = require('./routes/evaluation');
 const notificationsRoutes = require('./routes/notifications');
 const reportsRoutes = require('./routes/reports');
 const fingerprintIntegration = require('./integrations/fingerprint');
+const integrationsRouter = require('./integrations/router');
+const pushRouter = require('./routes/push');
 
 const app = express();
 
@@ -84,6 +86,8 @@ app.use('/api/attendance-reports', attendanceReportsRoutes);
 app.use('/api/results', resultsRoutes);
 app.use('/api/evaluation', evaluationRoutes);
 app.use('/api/integrations/fingerprint', fingerprintIntegration);
+app.use('/api/integrations', integrationsRouter);
+app.use('/api/push', pushRouter);
 app.use('/api/coordinator', coordinatorRoutes);
 app.use('/api/student',     studentRoutes);
 app.use('/api/teacher',     teacherRoutes);

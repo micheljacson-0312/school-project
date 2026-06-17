@@ -1,0 +1,17 @@
+{
+  "name": "City Public School — Admin",
+  "short_name": "Admin",
+  "description": "Administrator portal — manage users, content, fees, integrations, and reports.",
+  "start_url": "/admin",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#7c3aed",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "/icons/admin-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/admin-512.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/icons/admin-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

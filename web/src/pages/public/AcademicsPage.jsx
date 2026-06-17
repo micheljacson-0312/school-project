@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../lib/api.js';
+import Title from '../../components/Title.jsx';
 
 export default function AcademicsPage() {
   const [classes, setClasses] = useState([]);
@@ -9,6 +10,7 @@ export default function AcademicsPage() {
   }, []);
   return (
     <div>
+      <Title>Academics</Title>
       <section className="bg-brand-700 text-white">
         <div className="max-w-6xl mx-auto px-4 py-12">
           <h1 className="text-3xl md:text-4xl font-bold">Academics</h1>

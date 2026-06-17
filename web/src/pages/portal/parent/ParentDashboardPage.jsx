@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../../lib/api.js';
+import RoleQuickActions from '../../../components/RoleQuickActions.jsx';
 
 function ChildCard({ child, summary }) {
   const a = summary.attendance || {};
@@ -62,6 +63,7 @@ export default function ParentDashboardPage() {
         <h1 className="text-2xl font-semibold">{data.greeting}</h1>
         <p className="text-slate-500">{data.children.length === 0 ? 'No children linked to this account.' : `${data.children.length} child${data.children.length === 1 ? '' : 'ren'} linked.`}</p>
       </header>
+      <RoleQuickActions roleKey="parent" />
       {data.children.length === 0 ? (
         <div className="card"><div className="card-body text-slate-500">Ask the school office to link your account to your child.</div></div>
       ) : (

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { api } from '../../lib/api.js';
 import { SmartImage } from '../../components/Placeholder.jsx';
+import Title from '../../components/Title.jsx';
 
 export default function GalleryPage() {
   const [items, setItems] = useState([]);
@@ -22,6 +23,7 @@ export default function GalleryPage() {
   }, [items, category, sort]);
   return (
     <div>
+      <Title>Gallery</Title>
       <section className="bg-brand-700 text-white">
         <div className="max-w-6xl mx-auto px-4 py-12">
           <h1 className="text-3xl md:text-4xl font-bold">Gallery</h1>

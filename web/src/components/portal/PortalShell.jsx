@@ -7,8 +7,9 @@ import { useAuth } from '../../lib/auth.jsx';
 
 export default function PortalShell() {
   const { user } = useAuth();
+  // Hide the public "Home" link in the DashboardShell header for role portals.
   return (
-    <DashboardShell>
+    <DashboardShell hideHomeLink>
       <div className="flex gap-6">
         <Sidebar roleKey={user?.role.key} />
         <div className="flex-1 min-w-0">

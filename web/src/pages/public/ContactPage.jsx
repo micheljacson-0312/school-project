@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSite, whatsappUrl } from '../../lib/site.jsx';
 import { api } from '../../lib/api.js';
+import Title from '../../components/Title.jsx';
 
 const initial = { name: '', email: '', phone: '', subject: '', message: '' };
 
@@ -29,6 +30,7 @@ export default function ContactPage() {
 
   return (
     <div>
+      <Title>Contact us</Title>
       <section className="bg-brand-700 text-white">
         <div className="max-w-6xl mx-auto px-4 py-12">
           <h1 className="text-3xl md:text-4xl font-bold">Contact us</h1>

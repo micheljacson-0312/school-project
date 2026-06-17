@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../../lib/api.js';
+import RoleQuickActions from '../../../components/RoleQuickActions.jsx';
 
 function Metric({ label, value, hint }) {
   return (
@@ -56,6 +57,8 @@ export default function StudentDashboardPage() {
         <h1 className="text-2xl font-semibold">{data.greeting}</h1>
         <p className="text-slate-500">{p.class_name} · Section {p.section_name} · {p.session_name} · Adm. {p.admission_no}</p>
       </header>
+
+      <RoleQuickActions roleKey="student" />
 
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Metric label="Attendance (60d)" value={a.attendance_pct != null ? `${a.attendance_pct}%` : '—'} hint={a.counted ? `of ${a.counted} days` : ''} />

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#1d64e8"/>
+  <g fill="#ffffff" transform="translate(256,256) scale(0.75)">
+    <!-- Graduation cap -->
+    <path d="M0,-110 L-200,0 L0,90 L200,0 Z"/>
+    <path d="M-130,40 L-130,120 Q0,200 130,120 L130,40 L0,100 Z" opacity="0.85"/>
+    <line x1="200" y1="0" x2="200" y2="120" stroke="#ffffff" stroke-width="20" stroke-linecap="round"/>
+    <circle cx="200" cy="140" r="14" fill="#ffffff"/>
+  </g>
+</svg>

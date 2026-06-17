@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../lib/api.js';
+import Title from '../../components/Title.jsx';
 
 const initial = { full_name: '', email: '', phone: '', cnic: '', experience: '', cover_letter: '' };
 
@@ -41,6 +42,7 @@ export default function JobDetailPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
+      <Title>{job.title}</Title>
       <Link to="/careers" className="text-sm text-brand-700">← All open positions</Link>
       <h1 className="text-3xl font-bold mt-2">{job.title}</h1>
       <p className="text-slate-500 mt-1">

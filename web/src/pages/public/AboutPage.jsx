@@ -1,10 +1,12 @@
 import { useSite } from '../../lib/site.jsx';
 import { SmartImage } from '../../components/Placeholder.jsx';
+import Title from '../../components/Title.jsx';
 
 export default function AboutPage() {
   const { settings, principal, achievements } = useSite();
   return (
     <div>
+      <Title>About us</Title>
       {/* Hero strip */}
       <section className="bg-brand-700 text-white">
         <div className="max-w-6xl mx-auto px-4 py-12">

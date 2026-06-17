@@ -63,18 +63,28 @@ router.put('/news/:id', requirePermission('content.news.manage'), async (req, re
     for (const k of ['type','title','slug','excerpt','body','cover_image','event_date']) {
       if (d[k] !== undefined) { fields.push(`${k}=?`); vals.push(d[k]); }
     }
-    if (d.is_published !== undefined) {
-      fields.push('is_published=?');
-      vals.push(d.is_published ? 1 : 0);
-      if (d.is_published) { fields.push('published_at=NOW()'); }
-    }
-    if (!fields.length) return res.status(400).json({ error: 'no_fields' });
-    vals.push(req.params.id);
-    await pool.query(`UPDATE news_events SET ${fields.join(', ')} WHERE id=?`, vals);
-    await log({ actorId: req.user.id, actorEmail: req.user.email, action: 'content.news.update',
-                entityType: 'news_event', entityId: Number(req.params.id), ip: req.ip, meta: d });
-    res.json({ ok: true });
-  } catch (err) { next(err); }
+  if (d.is_published !== undefined) {
+    fields.push('is_published=?');
+    vals.push(d.is_published ? 1 : 0);
+    if (d.is_published) { fields.push('published_at=NOW()'); }
+  }
+  if (!fields.length) return res.status(400).json({ error: 'no_fields' });
+  vals.push(req.params.id);
+  await pool.query(`UPDATE news_events SET ${fields.join(', ')} WHERE id=?`, vals);
+  await log({ actorId: req.user.id, actorEmail: req.user.email, action: 'content.news.update',
+              entityType: 'news_event', entityId: Number(req.params.id), ip: req.ip, meta: d });
+  // Auto-broadcast on transition to published.
+  if (d.is_published === true) {
+    const [rows] = await pool.query(`SELECT title, slug FROM news_events WHERE id=?`, [req.params.id]);
+    const r = rows[0];
+    if (r) await autoBroadcast({
+      text: `${r.title} — read more on the school website.`,
+      link: `${req.protocol}://${req.get('host') || 'school.test'}/news/${r.slug}`,
+      kind: 'news',
+    });
+  }
+  res.json({ ok: true });
+} catch (err) { next(err); }
 });
 
 router.delete('/news/:id', requirePermission('content.news.manage'), async (req, res, next) => {
@@ -191,6 +201,16 @@ router.put('/jobs/:id', async (req, res, next) => {
     await pool.query(`UPDATE job_postings SET ${fields.join(', ')} WHERE id=?`, vals);
     await log({ actorId: req.user.id, actorEmail: req.user.email, action: 'content.job.update',
                 entityType: 'job_posting', entityId: Number(req.params.id), ip: req.ip });
+    // Auto-broadcast on transition to published.
+    if (d.is_published === true) {
+      const [rows] = await pool.query(`SELECT title FROM job_postings WHERE id=?`, [req.params.id]);
+      const r = rows[0];
+      if (r) await autoBroadcast({
+        text: `Now hiring: ${r.title}. Apply via the Careers page.`,
+        link: `${req.protocol}://${req.get('host') || 'school.test'}/careers/${req.params.id}`,
+        kind: 'job',
+      });
+    }
     res.json({ ok: true });
   } catch (err) { next(err); }
 });
@@ -461,6 +481,91 @@ router.get('/contact-messages', async (req, res, next) => {
   try {
     const [rows] = await pool.query(`SELECT * FROM contact_messages ORDER BY created_at DESC LIMIT 500`);
     res.json({ items: rows });
+  } catch (err) { next(err); }
+});
+
+// =====================================================================
+// Announcements — short time-sensitive notices shown on the homepage.
+// Uses the same notifications.create / notifications.view permissions.
+// =====================================================================
+// Pluggable social-broadcast helper. No-op if no platform is enabled.
+// Errors are caught and logged so a social failure never breaks the
+// content publish path.
+async function autoBroadcast({ text, link, kind }) {
+  try {
+    const social = require('../integrations/social');
+    const enabled = (social.status().then(s => (s.platforms || []).some(p => p.is_enabled)) || Promise.resolve(false));
+    if (!await enabled) return;
+    const r = await social.broadcast({ text, link });
+    await log({ action: 'integrations.social.broadcast', entityType: 'social', meta: { kind, results: r } });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('[autoBroadcast] social broadcast failed:', e.message);
+  }
+}
+
+const announcementSchema = z.object({
+  title: z.string().min(1).max(190),
+  body: z.string().max(1000).optional(),
+  link_label: z.string().max(64).optional(),
+  link_href: z.string().max(255).optional(),
+  severity: z.enum(['info', 'success', 'warning', 'danger']).default('info'),
+  starts_at: z.string().optional(),
+  ends_at: z.string().optional(),
+  is_active: z.boolean().optional(),
+});
+
+router.get('/announcements', async (req, res, next) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT * FROM announcements ORDER BY id DESC LIMIT 200`);
+    res.json({ items: rows });
+  } catch (err) { next(err); }
+});
+
+router.post('/announcements', requirePermission('notifications.create'), async (req, res, next) => {
+  try {
+    const p = announcementSchema.safeParse(req.body);
+    if (!p.success) return res.status(400).json({ error: 'invalid_body', detail: p.error.flatten() });
+    const d = p.data;
+    const [r] = await pool.query(
+      `INSERT INTO announcements (title, body, link_label, link_href, severity,
+         starts_at, ends_at, is_active, created_by)
+       VALUES (?,?,?,?,?,?,?,?,?)`,
+      [d.title, d.body || null, d.link_label || null, d.link_href || null,
+       d.severity, d.starts_at || null, d.ends_at || null,
+       d.is_active === false ? 0 : 1, req.user.id]);
+    await log({ actorId: req.user.id, actorEmail: req.user.email, action: 'announcement.create',
+                entityType: 'announcement', entityId: r.insertId, ip: req.ip, meta: d });
+    res.status(201).json({ id: r.insertId });
+  } catch (err) { next(err); }
+});
+
+router.put('/announcements/:id', requirePermission('notifications.create'), async (req, res, next) => {
+  try {
+    const p = announcementSchema.partial().safeParse(req.body);
+    if (!p.success) return res.status(400).json({ error: 'invalid_body', detail: p.error.flatten() });
+    const d = p.data;
+    const fields = []; const vals = [];
+    for (const k of ['title', 'body', 'link_label', 'link_href', 'severity', 'starts_at', 'ends_at']) {
+      if (d[k] !== undefined) { fields.push(`${k}=?`); vals.push(d[k]); }
+    }
+    if (d.is_active !== undefined) { fields.push('is_active=?'); vals.push(d.is_active ? 1 : 0); }
+    if (!fields.length) return res.status(400).json({ error: 'no_fields' });
+    vals.push(req.params.id);
+    await pool.query(`UPDATE announcements SET ${fields.join(', ')} WHERE id=?`, vals);
+    await log({ actorId: req.user.id, actorEmail: req.user.email, action: 'announcement.update',
+                entityType: 'announcement', entityId: Number(req.params.id), ip: req.ip, meta: d });
+    res.json({ ok: true });
+  } catch (err) { next(err); }
+});
+
+router.delete('/announcements/:id', requirePermission('notifications.create'), async (req, res, next) => {
+  try {
+    await pool.query('DELETE FROM announcements WHERE id=?', [req.params.id]);
+    await log({ actorId: req.user.id, actorEmail: req.user.email, action: 'announcement.delete',
+                entityType: 'announcement', entityId: Number(req.params.id), ip: req.ip });
+    res.json({ ok: true });
   } catch (err) { next(err); }
 });
 

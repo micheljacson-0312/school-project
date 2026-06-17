@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSite } from '../../lib/site.jsx';
 import { SmartImage } from '../../components/Placeholder.jsx';
+import AnnouncementsBanner from '../../components/AnnouncementsBanner.jsx';
+import Title from '../../components/Title.jsx';
 
 // Simple auto-rotating carousel (no deps). Pauses on hover.
 function HeroCarousel({ slides, schoolName }) {
@@ -45,9 +47,13 @@ function HeroCarousel({ slides, schoolName }) {
 }
 
 export default function HomePage() {
-  const { settings, slides, achievements, principal, latest_news, gallery_preview, loading } = useSite();
+  const { settings, slides, achievements, principal, latest_news, gallery_preview, announcements, stats, loading } = useSite();
+  const foundedYear = stats?.founded_year;
+  const yearsOfService = foundedYear ? new Date().getFullYear() - foundedYear : null;
   return (
     <div>
+      <Title>Home</Title>
+      <AnnouncementsBanner announcements={announcements} />
       <HeroCarousel slides={slides} schoolName={settings.school_name} />
 
       {/* Quick-info strip */}
@@ -149,6 +155,28 @@ export default function HomePage() {
             {gallery_preview.slice(0, 6).map(g => (
               <SmartImage key={g.id} src={g.media_url} label={g.caption} aspect="1/1" rounded="rounded-md" />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Live stats strip */}
+      <section className="bg-white border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div>
+            <div className="text-3xl md:text-4xl font-bold text-brand-700">{stats?.students?.toLocaleString() ?? '—'}</div>
+            <div className="text-xs uppercase tracking-wide text-slate-500 mt-1">Students enrolled</div>
+          </div>
+          <div>
+            <div className="text-3xl md:text-4xl font-bold text-brand-700">{stats?.teachers?.toLocaleString() ?? '—'}</div>
+            <div className="text-xs uppercase tracking-wide text-slate-500 mt-1">Teaching staff</div>
+          </div>
+          <div>
+            <div className="text-3xl md:text-4xl font-bold text-brand-700">{stats?.grades ?? '—'}</div>
+            <div className="text-xs uppercase tracking-wide text-slate-500 mt-1">Grade levels</div>
+          </div>
+          <div>
+            <div className="text-3xl md:text-4xl font-bold text-brand-700">{yearsOfService ?? '—'}+</div>
+            <div className="text-xs uppercase tracking-wide text-slate-500 mt-1">Years of service</div>
           </div>
         </div>
       </section>

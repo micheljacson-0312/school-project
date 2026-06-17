@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../lib/api.js';
 import { SmartImage } from '../../components/Placeholder.jsx';
+import Title from '../../components/Title.jsx';
 
 export default function NewsDetailPage() {
   const { slug } = useParams();
@@ -12,6 +13,7 @@ export default function NewsDetailPage() {
   }, [slug]);
   if (error) return (
     <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+      <Title>Article not found</Title>
       <h1 className="text-2xl font-semibold">Article not found</h1>
       <p className="text-slate-500 mt-2">We couldn't find what you were looking for.</p>
       <Link to="/news" className="btn-primary mt-4 inline-flex">Back to News & Events</Link>
@@ -21,6 +23,7 @@ export default function NewsDetailPage() {
 
   return (
     <article className="max-w-3xl mx-auto px-4 py-10">
+      <Title>{item.title}</Title>
       <Link to="/news" className="text-sm text-brand-700">← All news & events</Link>
       <span className={'ml-3 text-xs uppercase font-semibold ' + (item.type === 'event' ? 'text-purple-700' : 'text-brand-700')}>
         {item.type}

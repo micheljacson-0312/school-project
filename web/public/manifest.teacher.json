@@ -1,0 +1,17 @@
+{
+  "name": "City Public School — Teacher",
+  "short_name": "Teacher",
+  "description": "Teacher portal — attendance marking, lectures, assignments, quizzes, results.",
+  "start_url": "/teacher",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#f59e0b",
+  "categories": ["education"],
+  "icons": [
+    { "src": "/icons/teacher-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/teacher-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/teacher-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

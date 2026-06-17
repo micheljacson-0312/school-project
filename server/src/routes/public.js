@@ -155,7 +155,25 @@ async function buildHomepagePayload() {
   const [principalRows] = await pool.query(`SELECT * FROM principal_message WHERE id = 1 LIMIT 1`);
   const principal = principalRows[0] || null;
 
-  return { settings, slides, achievements, principal };
+  // Active, in-window announcements (short time-sensitive notices).
+  const [announcements] = await pool.query(
+    `SELECT id, title, body, link_label, link_href, severity
+       FROM announcements
+      WHERE is_active = 1
+        AND (starts_at IS NULL OR starts_at <= NOW())
+        AND (ends_at   IS NULL OR ends_at   >= NOW())
+      ORDER BY id DESC LIMIT 5`);
+
+  // Live stats for the homepage key-stats strip.
+  const [statsRows] = await pool.query(`
+    SELECT
+      (SELECT COUNT(*) FROM students  WHERE status='active')    AS students,
+      (SELECT COUNT(*) FROM teachers  WHERE status='active')    AS teachers,
+      (SELECT COUNT(*) FROM classes)                            AS grades,
+      (SELECT MIN(YEAR(start_date)) FROM academic_sessions)     AS founded_year
+  `);
+
+  return { settings, slides, achievements, principal, announcements, stats: statsRows[0] };
 }
 
 router.get('/site', async (req, res, next) => {
@@ -177,6 +195,38 @@ router.get('/homepage', async (req, res, next) => {
          FROM gallery_items WHERE is_published = 1
          ORDER BY taken_on DESC LIMIT 6`);
     res.json({ ...payload, latest_news: news, gallery_preview: gallery });
+  } catch (err) { next(err); }
+});
+
+// ---------------------------------------------------------------------
+// Announcements — public list of currently active in-window notices.
+// ---------------------------------------------------------------------
+router.get('/announcements', async (req, res, next) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT id, title, body, link_label, link_href, severity
+         FROM announcements
+        WHERE is_active = 1
+          AND (starts_at IS NULL OR starts_at <= NOW())
+          AND (ends_at   IS NULL OR ends_at   >= NOW())
+        ORDER BY id DESC LIMIT 20`);
+    res.json({ items: rows });
+  } catch (err) { next(err); }
+});
+
+// ---------------------------------------------------------------------
+// Live stats for the homepage (counts only — no PII).
+// ---------------------------------------------------------------------
+router.get('/stats', async (req, res, next) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        (SELECT COUNT(*) FROM students  WHERE status='active')    AS students,
+        (SELECT COUNT(*) FROM teachers  WHERE status='active')    AS teachers,
+        (SELECT COUNT(*) FROM classes)                            AS grades,
+        (SELECT MIN(YEAR(start_date)) FROM academic_sessions)     AS founded_year
+    `);
+    res.json(rows[0]);
   } catch (err) { next(err); }
 });
 

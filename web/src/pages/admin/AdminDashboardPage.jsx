@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../lib/api.js';
+import RoleQuickActions from '../../components/RoleQuickActions.jsx';
 
 function Tile({ to, label, hint, color = 'brand' }) {
   const palette = {

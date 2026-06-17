@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../lib/api.js';
 import { useSite } from '../../lib/site.jsx';
+import Title from '../../components/Title.jsx';
 
 const initial = {
   applicant_name: '', parent_name: '', email: '', phone: '',
@@ -37,6 +38,7 @@ export default function AdmissionsPage() {
 
   return (
     <div>
+      <Title>Admissions</Title>
       <section className="bg-brand-700 text-white">
         <div className="max-w-6xl mx-auto px-4 py-12">
           <h1 className="text-3xl md:text-4xl font-bold">Admissions</h1>

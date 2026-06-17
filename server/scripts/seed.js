@@ -521,6 +521,30 @@ We are proud of the generations of alumni who have carried these values into med
   }
   console.log('  • job postings seeded');
 
+  // -------------------------------------------------------------------
+  // Phase 2 (enhancement): time-sensitive announcements for the homepage.
+  // -------------------------------------------------------------------
+  const announcements = [
+    { title:'Admissions for 2026 are now open',
+      body:'Apply online for the upcoming academic session. Limited seats per grade.',
+      link_label:'Apply now', link_href:'/admissions', severity:'success', days:30 },
+    { title:'School closed on Monday for public holiday',
+      body:'In observance of the public holiday, the school will remain closed on Monday. Classes resume Tuesday as usual.',
+      link_label:'View academic calendar', link_href:'/news', severity:'warning', days:7 },
+    { title:'Mid-term exam schedule released',
+      body:'The mid-term exam schedule for all grades is now available on the notices board.',
+      link_label:'Download schedule', link_href:'/news', severity:'info', days:14 },
+  ];
+  for (const a of announcements) {
+    await db.query(
+      `INSERT INTO announcements (title, body, link_label, link_href, severity,
+         starts_at, ends_at, is_active, created_by)
+       VALUES (?,?,?,?,?, NOW(), DATE_ADD(NOW(), INTERVAL ? DAY), 1, ?)
+       ON DUPLICATE KEY UPDATE title=VALUES(title), body=VALUES(body)`,
+      [a.title, a.body, a.link_label, a.link_href, a.severity, a.days, userIds.admin]);
+  }
+  console.log('  • announcements seeded');
+
   console.log('\nSeed complete. Demo login: admin@school.test / Password123!');
   await db.end();
 })().catch(err => {

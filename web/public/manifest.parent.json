@@ -1,0 +1,17 @@
+{
+  "name": "City Public School — Parent",
+  "short_name": "Parent",
+  "description": "Parent portal — track your child's attendance, results, fees, and announcements.",
+  "start_url": "/parent",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "categories": ["education"],
+  "icons": [
+    { "src": "/icons/parent-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/parent-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/parent-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

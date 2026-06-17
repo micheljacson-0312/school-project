@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, dashboardPathFor } from '../lib/auth.jsx';
+import Title from '../components/Title.jsx';
 
 const DEMO_USERS = [
   { role: 'Admin',        email: 'admin@school.test' },
@@ -32,6 +33,7 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10 grid lg:grid-cols-2 gap-8 items-start">
+      <Title>Sign in</Title>
       {/* Intro column */}
       <section className="hidden lg:block">
         <div className="text-xs uppercase tracking-wider text-brand-700 font-semibold">Member sign in</div>

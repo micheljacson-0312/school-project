@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../../lib/api.js';
+import RoleQuickActions from '../../../components/RoleQuickActions.jsx';
 
 export default function AlumniDashboardPage() {
   const [data, setData] = useState(null);
@@ -17,6 +18,8 @@ export default function AlumniDashboardPage() {
         <h1 className="text-2xl font-semibold">{data.greeting}</h1>
         <p className="text-slate-500">Stay connected with your alma mater.</p>
       </header>
+
+      <RoleQuickActions roleKey="alumni" />
 
       {p ? (
         <div className="card"><div className="card-body space-y-2">

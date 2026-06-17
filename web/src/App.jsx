@@ -68,6 +68,7 @@ import ContactPage          from './pages/public/ContactPage.jsx';
 import JobsListPage         from './pages/public/JobsListPage.jsx';
 import JobDetailPage        from './pages/public/JobDetailPage.jsx';
 import NotFoundPage         from './pages/public/NotFoundPage.jsx';
+import OfflinePage          from './pages/OfflinePage.jsx';
 
 // Admin pages (Phase 3 + Phase 5)
 import AdminDashboardPage       from './pages/admin/AdminDashboardPage.jsx';
@@ -93,7 +94,13 @@ import SettingsAdminPage        from './pages/admin/SettingsAdminPage.jsx';
 import AdmissionsReviewPage     from './pages/admin/AdmissionsReviewPage.jsx';
 import JobApplicationsReviewPage from './pages/admin/JobApplicationsReviewPage.jsx';
 import ContactMessagesPage      from './pages/admin/ContactMessagesPage.jsx';
+import AnnouncementsAdminPage   from './pages/admin/AnnouncementsAdminPage.jsx';
 import MailSettingsPage         from './pages/admin/MailSettingsPage.jsx';
+import IntegrationsOverviewPage from './pages/admin/IntegrationsOverviewPage.jsx';
+import SmsSettingsPage          from './pages/admin/SmsSettingsPage.jsx';
+import WhatsAppSettingsPage     from './pages/admin/WhatsAppSettingsPage.jsx';
+import SocialSettingsPage       from './pages/admin/SocialSettingsPage.jsx';
+import IntegrationLogPage       from './pages/admin/IntegrationLogPage.jsx';
 import AuditLogPage             from './pages/admin/AuditLogPage.jsx';
 import EvaluationsAdminPage     from './pages/admin/EvaluationsAdminPage.jsx';
 import FingerprintAdminPage     from './pages/admin/FingerprintAdminPage.jsx';
@@ -124,6 +131,7 @@ export default function App() {
           <Route path="/careers/:id" element={<JobDetailPage />} />
           <Route path="/contact"     element={<ContactPage />} />
           <Route path="/login"       element={<LoginPage />} />
+          <Route path="/offline"     element={<OfflinePage />} />
         </Route>
 
         {/* Admin portal — sidebar + nested routes */}
@@ -154,7 +162,14 @@ export default function App() {
             <Route path="admissions"                       element={<AdmissionsReviewPage />} />
             <Route path="job-applications"                 element={<JobApplicationsReviewPage />} />
             <Route path="contact-messages"                 element={<ContactMessagesPage />} />
+            <Route path="announcements"                    element={<AnnouncementsAdminPage />} />
             <Route path="mail"                             element={<MailSettingsPage />} />
+            <Route path="integrations"                     element={<IntegrationsOverviewPage />} />
+            <Route path="integrations/sms"                 element={<SmsSettingsPage />} />
+            <Route path="integrations/whatsapp"            element={<WhatsAppSettingsPage />} />
+            <Route path="integrations/social"              element={<SocialSettingsPage />} />
+            <Route path="integrations/log"                 element={<IntegrationLogPage />} />
+            <Route path="push"                             element={<PushSettingsPage />} />
             <Route path="audit"                            element={<AuditLogPage />} />
             <Route path="evaluations"                      element={<EvaluationsAdminPage />} />
             <Route path="fingerprint"                      element={<FingerprintAdminPage />} />
@@ -256,6 +271,7 @@ export default function App() {
         </Route>
 
         <Route path="/portal" element={<PortalRedirect />} />
+        <Route path="/offline" element={<OfflinePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </SiteProvider>

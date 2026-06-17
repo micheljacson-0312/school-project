@@ -66,12 +66,26 @@ const SECTIONS = [
     title: 'Communications',
     items: [
       { to: '/admin/notifications', label: 'Notifications' },
+      { to: '/admin/announcements',  label: 'Public announcements' },
     ],
   },
   {
     title: 'Reports',
     items: [
       { to: '/admin/reports-export', label: 'CSV exports' },
+    ],
+  },
+  {
+    title: 'Integrations',
+    items: [
+      { to: '/admin/integrations',           label: 'Overview' },
+      { to: '/admin/mail',                   label: 'Mail (SMTP)' },
+      { to: '/admin/integrations/sms',       label: 'SMS gateway' },
+      { to: '/admin/integrations/whatsapp',  label: 'WhatsApp' },
+      { to: '/admin/integrations/social',    label: 'Social media' },
+      { to: '/admin/push',                   label: 'Push notifications' },
+      { to: '/admin/integrations/log',       label: 'Send log' },
+      { to: '/admin/fingerprint',            label: 'Fingerprint devices' },
     ],
   },
   {

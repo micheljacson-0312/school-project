@@ -1,0 +1,17 @@
+{
+  "name": "City Public School — Student",
+  "short_name": "Student",
+  "description": "Student portal — attendance, results, assignments, live classes, fees.",
+  "start_url": "/student",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "categories": ["education"],
+  "icons": [
+    { "src": "/icons/student-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/student-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/student-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

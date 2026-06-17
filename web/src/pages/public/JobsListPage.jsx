@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../lib/api.js';
+import Title from '../../components/Title.jsx';
 
 const TYPE_LABEL = {
   full_time: 'Full-time',
@@ -18,6 +19,7 @@ export default function JobsListPage() {
   }, []);
   return (
     <div>
+      <Title>Careers</Title>
       <section className="bg-brand-700 text-white">
         <div className="max-w-6xl mx-auto px-4 py-12">
           <h1 className="text-3xl md:text-4xl font-bold">Careers</h1>

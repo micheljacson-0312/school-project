@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../../lib/api.js';
+import RoleQuickActions from '../../../components/RoleQuickActions.jsx';
 
 function Metric({ label, value, hint }) {
   return (
@@ -24,6 +25,7 @@ export default function CoordinatorDashboardPage() {
         <h1 className="text-2xl font-semibold">{data.greeting}</h1>
         <p className="text-slate-500">Academic oversight — attendance and evaluations across classes.</p>
       </header>
+      <RoleQuickActions roleKey="coordinator" />
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Metric label="Active classes" value={data.classes} />
         <Metric label="Active students" value={data.students_active} />
