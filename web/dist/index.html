@@ -4,11 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1d64e8" />
-    <title>School Platform</title>
-    <script type="module" crossorigin src="/assets/index-DuT4bMZc.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-LEZUWxmX.css">
+    <meta name="description" content="City Public School — admissions, news, gallery, careers, and parent/student/teacher portals." />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <title>City Public School</title>
+    <script type="module" crossorigin src="/assets/index-Bs5qLeWu.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-euHUfC_Q.css">
   </head>
   <body class="bg-slate-50 text-slate-800">
     <div id="root"></div>
+    <script>
+      // Register the service worker (PWA install support). Only on https / localhost.
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => { /* ignore */ });
+        });
+      }
+    </script>
   </body>
 </html>

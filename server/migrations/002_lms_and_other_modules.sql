@@ -87,7 +87,7 @@ CREATE TABLE live_classes (
   -- Jitsi: room name is generated deterministically per session
   jitsi_room    VARCHAR(128) NOT NULL,
   starts_at     TIMESTAMP    NOT NULL,
-  ends_at       TIMESTAMP    DEFAULT NULL,
+  ends_at       TIMESTAMP    NULL DEFAULT NULL,
   status        ENUM('scheduled','live','ended','cancelled') NOT NULL DEFAULT 'scheduled',
   created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),

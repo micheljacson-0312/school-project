@@ -11,8 +11,6 @@ import LoginPage from './pages/LoginPage.jsx';
 // operator and alumni have their own Phase 7 portals.
 import CoordinatorDashboard from './pages/dashboards/CoordinatorDashboard.jsx';
 import AccountantDashboard  from './pages/dashboards/AccountantDashboard.jsx';
-import OperatorDashboard    from './pages/dashboards/OperatorDashboard.jsx';
-import AlumniDashboard      from './pages/dashboards/AlumniDashboard.jsx';
 
 // Portal shell (Phase 4) wraps student/teacher/parent multi-page portals
 import PortalShell from './components/portal/PortalShell.jsx';
@@ -103,7 +101,6 @@ import SmsSettingsPage          from './pages/admin/SmsSettingsPage.jsx';
 import WhatsAppSettingsPage     from './pages/admin/WhatsAppSettingsPage.jsx';
 import SocialSettingsPage       from './pages/admin/SocialSettingsPage.jsx';
 import IntegrationLogPage       from './pages/admin/IntegrationLogPage.jsx';
-import PushSettingsPage         from './pages/admin/PushSettingsPage.jsx';
 import AuditLogPage             from './pages/admin/AuditLogPage.jsx';
 import EvaluationsAdminPage     from './pages/admin/EvaluationsAdminPage.jsx';
 import FingerprintAdminPage     from './pages/admin/FingerprintAdminPage.jsx';
