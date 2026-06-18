@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "City Public School",
+    "slug": "city-public-school",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "scheme": "schoolplatform",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "test.school.platform",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow the school app to use the camera for assignment submissions and ID photos.",
+        "NSMicrophoneUsageDescription": "Allow the school app to use the microphone for live classes.",
+        "NSPhotoLibraryUsageDescription": "Allow the school app to pick images from your library for submissions.",
+        "NSFaceIDUsageDescription": "Use Face ID to unlock the school app quickly."
+      }
+    },
+    "android": {
+      "package": "test.school.platform",
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "POST_NOTIFICATIONS"
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon-192.png",
+        "backgroundColor": "#1d64e8"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      [
+        "expo-secure-store",
+        { "faceIDDescription": "Unlock the school app with Face ID" }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#ffffff"
+        }
+      ],
+      "expo-image-picker",
+      "expo-document-picker"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_WITH_YOUR_EAS_PROJECT_ID"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    }
+  }
+}
